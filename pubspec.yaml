@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_markdown: ^0.6.17
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -57,7 +58,13 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - Image/gameDev.png
+    - Image/gameDev-0.png
+    - Image/gameDev-1.jpg
+    - Image/gameDev-2.jpg
+    - Image/gameDev-3.png
+    - Image/unity_gameDev-0.jpg
+    - Image/vr_gameDev-0.jpg
+    - Image/design_gameDev-0.jpg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
