@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import 'screens/main_screen.dart';
+import 'package:provider/provider.dart';
+import 'screens/main/main_screen.dart';
+import 'screens/cart/cart_screen.dart';
+import 'providers/cart_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => CartProvider())],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,6 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'GameDev Courses',
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: const MainScreen(),
+      routes: {'/cart': (context) => const CartScreen()},
     );
   }
 }

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import '../screens/course_detail_screen.dart';
+import '../screens/course/course_detail_screen.dart';
+import '../models/course.dart';
 
 class GameDesignScreen extends StatelessWidget {
-  const GameDesignScreen({super.key});
+  final Course course;
+
+  const GameDesignScreen({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
     return CourseDetailScreen(
       courseName: 'Game Design Basics',
-      imagePath: 'Image/design_gameDev-0.jpg', // Додаємо відповідне зображення
+      imagePath: 'Image/design_gameDev-0.jpg',
+      price: course.price,
       description:
           '### 🎮 Основи Game Design\n\n'
           'Цей курс допоможе вам освоїти основи **геймдизайну** та зрозуміти, '

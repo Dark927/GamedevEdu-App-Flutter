@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import '../screens/course_detail_screen.dart';
+import '../screens/course/course_detail_screen.dart';
+import '../models/course.dart';
 
 class GameVRScreen extends StatelessWidget {
-  const GameVRScreen({super.key});
+  final Course course;
+
+  const GameVRScreen({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
     return CourseDetailScreen(
       courseName: 'VR/AR для розробників',
-      imagePath: 'Image/vr_gameDev-0.jpg', // Додаємо відповідне зображення
+      imagePath: 'Image/vr_gameDev-0.jpg',
+      price: course.price,
       description:
           '### 🕶️ VR/AR для розробників\n\n'
           'Цей курс навчить вас розробляти **віртуальну (VR) та доповнену реальність (AR)**. '

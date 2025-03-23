@@ -5,12 +5,14 @@ class CourseDetailScreen extends StatelessWidget {
   final String courseName;
   final String description;
   final String imagePath;
+  final double price;
 
   const CourseDetailScreen({
     super.key,
     required this.courseName,
     required this.description,
     required this.imagePath,
+    required this.price,
   });
 
   @override
@@ -23,13 +25,14 @@ class CourseDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Контейнер для зображення
+              // Зображення курсу
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.deepPurple, width: 3),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
+                      // ignore: deprecated_member_use
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 2,
                       blurRadius: 5,
@@ -44,7 +47,7 @@ class CourseDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // Заголовок курсу
+              // Назва курсу
               Text(
                 courseName,
                 style: const TextStyle(
@@ -61,9 +64,22 @@ class CourseDetailScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
+
+              const SizedBox(height: 8),
+
+              // Ціна курсу
+              Text(
+                'Ціна: ${price.toStringAsFixed(2)} грн.',
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+
               const SizedBox(height: 12),
 
-              // Опис курсу (Markdown)
+              // Опис курсу
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -95,12 +111,13 @@ class CourseDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
+
               const SizedBox(height: 20),
 
-              // Кнопки повернення
+              // Кнопки
               Column(
                 children: [
-                  // Кнопка "Повернутися до каталогу"
+                  // Кнопка повернення
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(

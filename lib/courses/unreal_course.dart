@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/course_detail_screen.dart';
+import '../screens/course/course_detail_screen.dart';
 
 class UnrealCourseScreen extends StatelessWidget {
   const UnrealCourseScreen({super.key});

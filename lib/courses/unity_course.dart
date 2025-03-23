@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import '../screens/course_detail_screen.dart';
+import '../screens/course/course_detail_screen.dart';
+import '../models/course.dart';
 
 class UnityCourseScreen extends StatelessWidget {
-  const UnityCourseScreen({super.key});
+  final Course course;
+
+  const UnityCourseScreen({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
     return CourseDetailScreen(
-      // ❌ Видаляємо const перед CourseDetailScreen
       courseName: 'Unity для початківців',
-      imagePath: 'Image/unity_gameDev-0.jpg', // Оновлене зображення для Unity
+      imagePath: 'Image/unity_gameDev-0.jpg',
+      price: course.price,
       description:
           '### 🔥 Unity для початківців\n\n'
           'Цей курс допоможе вам освоїти основи Unity та створювати **2D і 3D ігри**. '

@@ -1,63 +1,57 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
-import 'catalog_screen.dart';
-import '../widgets/animated_image.dart';
+import 'package:flutter/material.dart';
+import '../../widgets/animated_image.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class MainHomeTab extends StatefulWidget {
+  const MainHomeTab({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainHomeTab> createState() => _MainHomeTabState();
 }
 
-class _MainScreenState extends State<MainScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _MainHomeTabState extends State<MainHomeTab> {
   final PageController _pageController = PageController();
   final ScrollController _scrollController = ScrollController();
   double _scrollPosition = 0.0;
   Timer? _timer;
 
-  List<String> images = [
+  final List<String> images = [
     'Image/gameDev-1.jpg',
     'Image/gameDev-2.jpg',
     'Image/gameDev-3.png',
+    'Image/design_gameDev-0.jpg',
   ];
 
   int currentIndex = 0;
-  double firstPos = 1.0;
-  double secondPos = 20.0;
+  final double firstPos = 1.0;
+  final double secondPos = 20.0;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _startCarousel();
+    _scrollController.addListener(() {
+      setState(() {
+        _scrollPosition = _scrollController.offset;
+      });
+    });
+  }
 
-    // Автоматична зміна каруселі
+  void _startCarousel() {
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
       if (!mounted || !_pageController.hasClients) {
         timer.cancel();
         return;
       }
-
       setState(() {
         currentIndex = (currentIndex + 1) % images.length;
       });
-
       _pageController.animateToPage(
         currentIndex,
         duration: const Duration(milliseconds: 600),
         curve: Curves.easeInOut,
       );
-    });
-
-    // Відстеження скролу
-    _scrollController.addListener(() {
-      if (mounted) {
-        setState(() {
-          _scrollPosition = _scrollController.offset;
-        });
-      }
     });
   }
 
@@ -66,91 +60,11 @@ class _MainScreenState extends State<MainScreen>
     _timer?.cancel();
     _pageController.dispose();
     _scrollController.dispose();
-    _tabController.dispose();
     super.dispose();
-  }
-
-  // Функція для перемикання на головну вкладку
-  void goToHomeTab() {
-    _tabController.animateTo(0);
-    Navigator.pop(context); // Закриваємо Drawer після переходу
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('GameDev Courses')),
-        drawer: _buildDrawer(), // Додаємо бургер-меню
-        body: Column(
-          children: [
-            TabBar(
-              controller: _tabController,
-              tabs: const [
-                Tab(icon: Icon(Icons.home), text: 'Головна'),
-                Tab(icon: Icon(Icons.list), text: 'Каталог'),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [_buildHomeScreen(), CatalogScreen()],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Бургер-меню (Drawer)
-  Widget _buildDrawer() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.deepPurple),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.gamepad, size: 50, color: Colors.white),
-                SizedBox(height: 10),
-                Text(
-                  'GameDev Hub',
-                  style: TextStyle(
-                    fontSize: 22,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Навчання геймдеву',
-                  style: TextStyle(fontSize: 16, color: Colors.white70),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.home, color: Colors.deepPurple),
-            title: const Text('Головна'),
-            onTap: goToHomeTab, // Викликаємо зміну вкладки
-          ),
-          ListTile(
-            leading: const Icon(Icons.person, color: Colors.deepPurple),
-            title: const Text('Профіль'),
-            onTap: () {
-              // Поки профіль нічого не робить
-              Navigator.pop(context); // Просто закриваємо Drawer
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHomeScreen() {
     return SingleChildScrollView(
       controller: _scrollController,
       child: Column(
