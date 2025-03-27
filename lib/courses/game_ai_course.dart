@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../screens/course/course_detail_screen.dart';
-import '../models/course.dart';
+import '../models/courses/course.dart';
 
 class GameAIScreen extends StatelessWidget {
   final Course course;

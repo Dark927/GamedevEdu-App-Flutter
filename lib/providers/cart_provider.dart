@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/course.dart';
+import '../models/courses/course.dart';
 
 class CartProvider with ChangeNotifier {
   final List<Course> _items = [];

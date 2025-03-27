@@ -43,7 +43,7 @@ class CustomDrawer extends StatelessWidget {
             title: const Text('Профіль'),
             onTap: () {
               Navigator.pop(context);
-              // Можна додати перехід на профіль пізніше
+              Navigator.pushNamed(context, '/auth');
             },
           ),
           ListTile(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/course.dart';
-import '../models/course_config.dart';
+import '../models/courses/course_config.dart';
+import 'draggable_course_item.dart';
 
 class CatalogScreen extends StatelessWidget {
   const CatalogScreen({super.key});
@@ -11,55 +11,19 @@ class CatalogScreen extends StatelessWidget {
       itemCount: courseConfigs.keys.length,
       itemBuilder: (context, index) {
         String courseName = courseConfigs.keys.elementAt(index);
-        CourseConfig config = courseConfigs[courseName]!;
+        var config = courseConfigs[courseName]!;
 
-        return GestureDetector(
+        return DraggableCourseItem(
+          courseName: config.course.name,
+          course: config.course,
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => config.builder()),
+              MaterialPageRoute(builder: (_) => config.builder()),
             );
           },
-          child: LongPressDraggable<Course>(
-            data: config.course,
-            dragAnchorStrategy: pointerDragAnchorStrategy,
-            feedback: Material(
-              color: Colors.transparent,
-              child: Opacity(
-                opacity: 0.85,
-                child: Card(
-                  color: Colors.deepPurple.shade100,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      config.course.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            childWhenDragging: Opacity(
-              opacity: 0.5,
-              child: _buildCourseCard(config.course.name),
-            ),
-            child: _buildCourseCard(config.course.name),
-          ),
         );
       },
-    );
-  }
-
-  Widget _buildCourseCard(String courseName) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: ListTile(
-        leading: const Icon(Icons.school, color: Colors.deepPurple),
-        title: Text(
-          courseName,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-      ),
     );
   }
 }

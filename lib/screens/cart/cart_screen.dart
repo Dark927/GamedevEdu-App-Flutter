@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/cart_provider.dart';
-import '../../models/course_config.dart';
+import '../../models/courses/course_config.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});

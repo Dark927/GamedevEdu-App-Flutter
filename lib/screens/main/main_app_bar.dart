@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/course.dart';
+import '../../models/courses/course.dart';
 import '../../providers/cart_provider.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {

@@ -34,26 +34,24 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: MainAppBar(),
-        drawer: CustomDrawer(goToHomeTab: goToHomeTab),
-        body: Column(
-          children: [
-            TabBar(
-              controller: _tabController,
-              tabs: const [
-                Tab(icon: Icon(Icons.home), text: 'Головна'),
-                Tab(icon: Icon(Icons.list), text: 'Каталог'),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [MainHomeTab(), const CatalogScreen()],
-              ),
-            ),
+    return Scaffold(
+      appBar: MainAppBar(),
+      drawer: CustomDrawer(goToHomeTab: goToHomeTab),
+      body: TabBarView(
+        controller: _tabController,
+        children: [MainHomeTab(), const CatalogScreen()],
+      ),
+      bottomNavigationBar: Material(
+        color: Colors.white,
+        elevation: 8, // Add shadow effect
+        child: TabBar(
+          controller: _tabController,
+          labelColor: Colors.deepPurple, // Active tab color
+          unselectedLabelColor: Colors.grey, // Inactive tab color
+          indicatorColor: Colors.deepPurple, // Bottom line indicator color
+          tabs: const [
+            Tab(icon: Icon(Icons.home), text: 'Головна'),
+            Tab(icon: Icon(Icons.list), text: 'Каталог'),
           ],
         ),
       ),

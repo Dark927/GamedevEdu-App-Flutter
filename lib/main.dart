@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'screens/main/main_screen.dart';
 import 'screens/cart/cart_screen.dart';
 import 'providers/cart_provider.dart';
+import 'screens/auth/auth_screen.dart';
 
 void main() {
   runApp(
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'GameDev Courses',
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: const MainScreen(),
-      routes: {'/cart': (context) => const CartScreen()},
+      routes: {'/auth': (context) => const AuthScreen(), '/cart': (context) => const CartScreen()},
     );
   }
 }
