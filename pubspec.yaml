@@ -30,9 +30,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_markdown: ^0.6.17
+  flutter_markdown: ^0.7.6+2
   provider: ^6.1.1
   visibility_detector: ^0.4.0
+  firebase_auth: ^5.5.1
+  firebase_core: ^3.12.1
+  shared_preferences: ^2.2.2
+  sqflite: ^2.3.0
+  path_provider: ^2.1.1
+  sqflite_common_ffi: ^2.3.5 # Only if targeting desktop/web
+  universal_io: ^2.0.4
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8

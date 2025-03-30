@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "109799530750",
+    "project_id": "gamedevapp-83495",
+    "storage_bucket": "gamedevapp-83495.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109799530750:android:1f14fcf8d98c8f8d5dc5af",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFVLwAW984V9-bxGhsh0bUUJBPUxUyPhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
