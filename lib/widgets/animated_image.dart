@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Виділений клас для анімованих зображень
 class AnimatedImage extends StatelessWidget {
   final String imagePath;
   final double scrollPosition;

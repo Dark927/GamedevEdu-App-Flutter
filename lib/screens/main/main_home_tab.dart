@@ -57,7 +57,6 @@ class _MainHomeTabState extends State<MainHomeTab> {
     return ListView(
       padding: const EdgeInsets.only(bottom: 40),
       children: [
-        // Карусель
         SizedBox(
           height: 250,
           child: PageView.builder(
@@ -75,7 +74,7 @@ class _MainHomeTabState extends State<MainHomeTab> {
 
         const SizedBox(height: 20),
 
-        // Заголовок
+        // Header
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(

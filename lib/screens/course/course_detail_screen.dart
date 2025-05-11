@@ -25,7 +25,7 @@ class CourseDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Зображення курсу
+              // Course img
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.deepPurple, width: 3),
@@ -47,7 +47,7 @@ class CourseDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // Назва курсу
+              // Course name
               Text(
                 courseName,
                 style: const TextStyle(
@@ -67,7 +67,7 @@ class CourseDetailScreen extends StatelessWidget {
 
               const SizedBox(height: 8),
 
-              // Ціна курсу
+              // Course price
               Text(
                 'Ціна: ${price.toStringAsFixed(2)} грн.',
                 style: const TextStyle(
@@ -79,7 +79,7 @@ class CourseDetailScreen extends StatelessWidget {
 
               const SizedBox(height: 12),
 
-              // Опис курсу
+              // Course desc
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -114,10 +114,10 @@ class CourseDetailScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // Кнопки
+              // Buttons
               Column(
                 children: [
-                  // Кнопка повернення
+                  // Return button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(

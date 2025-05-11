@@ -12,7 +12,7 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> 
+class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   late final DatabaseHelper _dbHelper;
@@ -32,7 +32,6 @@ class _MainScreenState extends State<MainScreen>
       setState(() => _isDatabaseInitialized = true);
     } catch (e) {
       debugPrint('Database initialization error: $e');
-      // Handle error appropriately
     }
   }
 

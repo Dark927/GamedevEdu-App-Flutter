@@ -35,24 +35,35 @@ class _RegisterFormState extends State<RegisterForm> {
     final lastName = _lastNameController.text.trim();
 
     // Validate inputs
-    if (email.isEmpty || password.isEmpty || firstName.isEmpty || lastName.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Будь ласка, заповніть всі поля')),
-      );
+    if (email.isEmpty ||
+        password.isEmpty ||
+        firstName.isEmpty ||
+        lastName.isEmpty) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Будь ласка, заповніть всі поля')),
+        );
+      }
       return;
     }
 
     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Будь ласка, введіть коректний email')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Будь ласка, введіть коректний email')),
+        );
+      }
       return;
     }
 
     if (password.length < 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Пароль повинен містити щонайменше 6 символів')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Пароль повинен містити щонайменше 6 символів'),
+          ),
+        );
+      }
       return;
     }
 
@@ -62,22 +73,22 @@ class _RegisterFormState extends State<RegisterForm> {
       // 1. Create user in Firebase
       final userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      
+
       // 2. Send verification email
       await userCredential.user?.sendEmailVerification();
-      
+
       // 3. Update user profile with name
       await userCredential.user?.updateDisplayName('$firstName $lastName');
-      
+
       // 4. Save to local database
       final dbHelper = DatabaseHelper();
       await dbHelper.createUser(
-        userCredential.user!.uid, 
+        userCredential.user!.uid,
         email,
         firstName: firstName,
         lastName: lastName,
       );
-      
+
       // 5. Clear any existing user products
       await dbHelper.clearUserProducts(userCredential.user!.uid);
 
@@ -88,7 +99,7 @@ class _RegisterFormState extends State<RegisterForm> {
       await prefs.setString('userId', userCredential.user!.uid);
       await prefs.setString('user_name', '$firstName $lastName');
 
-      if (!context.mounted) return;
+      if (!mounted) return; // Check if the widget is still mounted
 
       // 7. Navigate to verification screen
       Navigator.pushReplacement(
@@ -97,29 +108,54 @@ class _RegisterFormState extends State<RegisterForm> {
           builder: (_) => VerifyEmailScreen(user: userCredential.user!),
         ),
       );
-
     } on FirebaseAuthException catch (e) {
       String message = 'Помилка реєстрації';
+
+      // Switch for FirebaseAuth error codes
       switch (e.code) {
         case 'email-already-in-use':
-          message = 'Цей email вже використовується';
+          message = 'Цей email вже використовується. Спробуйте інший.';
           break;
         case 'invalid-email':
-          message = 'Невірний формат email';
+          message = 'Невірний формат email. Перевірте правильність введення.';
           break;
         case 'weak-password':
-          message = 'Пароль надто простий';
+          message =
+              'Пароль надто простий. Використовуйте більш складний пароль.';
           break;
         case 'operation-not-allowed':
-          message = 'Реєстрація вимкнена';
+          message =
+              'Реєстрація вимкнена для цього методу. Зверніться до адміністратора.';
+          break;
+        case 'email-not-verified':
+          message = 'Будь ласка, підтвердьте ваш email перед реєстрацією.';
+          break;
+        case 'user-disabled':
+          message = 'Цей користувач був заблокований.';
+          break;
+        default:
+          message = 'Невідома помилка реєстрації: ${e.message}';
           break;
       }
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+
+      // Check if mounted before updating UI
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Помилка: ${e.toString()}')),
-      );
+      // Catch any other unexpected errors and display the message
+      String errorMessage = 'Невідома помилка: ${e.toString()}';
+
+      // Check if mounted before updating UI
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(errorMessage)));
+      }
     } finally {
+      // Ensure the UI is updated only if mounted
       if (mounted) {
         setState(() => _isLoading = false);
       }
@@ -184,9 +220,14 @@ class _RegisterFormState extends State<RegisterForm> {
                     prefixIcon: const Icon(Icons.lock),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                       ),
-                      onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+                      onPressed:
+                          () => setState(
+                            () => _isPasswordVisible = !_isPasswordVisible,
+                          ),
                     ),
                     border: const OutlineInputBorder(),
                   ),
@@ -210,19 +251,20 @@ class _RegisterFormState extends State<RegisterForm> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: _isLoading
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
+              child:
+                  _isLoading
+                      ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                      : const Text(
+                        'Зареєструватися',
+                        style: TextStyle(fontSize: 16),
                       ),
-                    )
-                  : const Text(
-                      'Зареєструватися',
-                      style: TextStyle(fontSize: 16),
-                    ),
             ),
           ),
         ],

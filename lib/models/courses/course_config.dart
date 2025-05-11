@@ -50,7 +50,7 @@ final Map<String, CourseConfig> courseConfigs = {
   ),
   CourseKeys.unrealEngine: CourseConfig(
     course: courses[CourseKeys.unrealEngine]!,
-    builder:
-        () => UnrealCourseScreen(course: courses[CourseKeys.unrealEngine]!),
+    builder: () =>
+        UnrealCourseScreen(course: courses[CourseKeys.unrealEngine]!),
   ),
 };

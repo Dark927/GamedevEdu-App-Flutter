@@ -77,7 +77,7 @@ class DatabaseHelper {
   }
 
   Future<void> createUser(
-    String id, 
+    String id,
     String email, {
     String? firstName,
     String? lastName,
@@ -85,7 +85,7 @@ class DatabaseHelper {
     DateTime? createdAt,
   }) async {
     final db = await database;
-    
+
     try {
       final userData = {
         'id': id,
@@ -93,11 +93,12 @@ class DatabaseHelper {
         'first_name': firstName,
         'last_name': lastName,
         'verified': isVerified ? 1 : 0,
-        'created_at': createdAt?.toIso8601String() ?? DateTime.now().toIso8601String(),
+        'created_at':
+            createdAt?.toIso8601String() ?? DateTime.now().toIso8601String(),
       };
 
       _debugPrint('Creating user with data: $userData');
-      
+
       final result = await db.insert(
         'users',
         userData,
@@ -119,7 +120,6 @@ class DatabaseHelper {
       debugPrint('[DatabaseHelper] $message');
     }
   }
-
 
   Future<void> markUserAsVerified(String userId) async {
     final db = await database;
@@ -145,10 +145,7 @@ class DatabaseHelper {
   // Продукти
   Future<int> addProduct(String userId, String productName) async {
     final db = await database;
-    return await db.insert(
-      'products',
-      {'userId': userId, 'name': productName},
-    );
+    return await db.insert('products', {'userId': userId, 'name': productName});
   }
 
   Future<List<Map<String, dynamic>>> getUserProducts(String userId) async {
@@ -163,23 +160,14 @@ class DatabaseHelper {
 
   Future<int> deleteProduct(int productId) async {
     final db = await database;
-    return await db.delete(
-      'products',
-      where: 'id = ?',
-      whereArgs: [productId],
-    );
+    return await db.delete('products', where: 'id = ?', whereArgs: [productId]);
   }
 
   Future<void> clearUserProducts(String userId) async {
     final db = await database;
-    await db.delete(
-      'products',
-      where: 'userId = ?',
-      whereArgs: [userId],
-    );
+    await db.delete('products', where: 'userId = ?', whereArgs: [userId]);
   }
 
-  // Закриття бази даних
   Future<void> close() async {
     final db = await database;
     await db.close();
@@ -187,7 +175,18 @@ class DatabaseHelper {
   }
 
   Future<List<Map<String, dynamic>>> getAllUsers() async {
-  final db = await database;
-  return await db.query('users'); // Returns all users from users table
-}
+    final db = await database;
+    return await db.query('users'); // Returns all users from users table
+  }
+
+  Future<Map<String, dynamic>?> getUser(String userId) async {
+    final db = await database;
+    final result = await db.query(
+      'users',
+      where: 'id = ?',
+      whereArgs: [userId],
+      limit: 1,
+    );
+    return result.isNotEmpty ? result.first : null;
+  }
 }

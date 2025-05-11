@@ -34,10 +34,22 @@ class _AuthScreenState extends State<AuthScreen>
     super.dispose();
   }
 
+  void _handleBackNavigation(BuildContext context) {
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    } else {
+      Navigator.of(context).pushReplacementNamed('/home');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => _handleBackNavigation(context),
+        ),
         title: const Text('Аутентифікація'),
         titleTextStyle: const TextStyle(
           color: Colors.white,
@@ -45,8 +57,8 @@ class _AuthScreenState extends State<AuthScreen>
         ),
         bottom: TabBar(
           controller: _tabController,
-          labelColor: Colors.white, // колір активної вкладки
-          unselectedLabelColor: Colors.white70, // колір неактивних вкладок
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white70,
           tabs: const [Tab(text: 'Вхід'), Tab(text: 'Реєстрація')],
         ),
         backgroundColor: Colors.deepPurple,

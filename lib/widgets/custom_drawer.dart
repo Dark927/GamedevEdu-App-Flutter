@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../database/database_helper.dart';
 
@@ -6,7 +7,7 @@ class CustomDrawer extends StatelessWidget {
   final DatabaseHelper dbHelper;
 
   const CustomDrawer({
-    super.key, 
+    super.key,
     required this.goToHomeTab,
     required this.dbHelper,
   });
@@ -67,11 +68,19 @@ class CustomDrawer extends StatelessWidget {
     return ListTile(
       leading: const Icon(Icons.person, color: Colors.deepPurple),
       title: const Text('Profile'),
-      onTap: () {
-        Navigator.pop(context);
-        Navigator.pushNamed(context, '/auth');
-      },
+      onTap: () => _handleProfileTap(context),
     );
+  }
+
+  void _handleProfileTap(BuildContext context) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      // User not logged in, navigate to auth screen
+      Navigator.pushNamed(context, '/auth');
+    } else {
+      // User logged in, navigate to profile screen
+      Navigator.pushNamed(context, '/profile');
+    }
   }
 
   Widget _buildCartTile(BuildContext context) {
@@ -92,7 +101,7 @@ class CustomDrawer extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return _buildLoadingUsersTile();
         }
-        
+
         if (snapshot.hasError) {
           return _buildErrorTile(context, snapshot.error.toString());
         }
@@ -114,9 +123,9 @@ class CustomDrawer extends StatelessWidget {
     return ListTile(
       leading: const Icon(Icons.error, color: Colors.red),
       title: const Text('Error loading users'),
-      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $error')),
-      ),
+      onTap: () => ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $error'))),
     );
   }
 
@@ -128,7 +137,7 @@ class CustomDrawer extends StatelessWidget {
         if (users.isEmpty)
           _buildNoUsersFound()
         else
-          ...users.map(_buildUserTile).toList(),
+          ...users.map(_buildUserTile),
       ],
     );
   }

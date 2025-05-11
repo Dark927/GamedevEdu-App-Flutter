@@ -6,7 +6,9 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:universal_io/io.dart';
 
 import 'screens/main/main_screen.dart';
+import 'screens/auth/profile_screen.dart';
 import 'screens/cart/cart_screen.dart';
+import 'widgets/splash_screen.dart';
 import 'providers/cart_provider.dart';
 import 'screens/auth/auth_screen.dart';
 import 'firebase_options.dart';
@@ -42,7 +44,7 @@ void main() async {
 
 void _initializeDatabaseFactory() {
   if (!kIsWeb && !Platform.isAndroid && !Platform.isIOS) {
-    sqfliteFfiInit();  // Correct function name
+    sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
 }
@@ -59,11 +61,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const MainScreen(),
+      home: const SplashScreen(),
       routes: {
         '/auth': (context) => const AuthScreen(),
         '/cart': (context) => const CartScreen(),
-        '/home' : (context) => const MainScreen(),
+        '/home': (context) => const MainScreen(),
+        '/profile': (context) => const ProfileScreen(),
       },
     );
   }

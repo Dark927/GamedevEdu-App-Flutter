@@ -71,19 +71,21 @@ class _LoginFormState extends State<LoginForm> {
       // Check if email is verified
       if (userCredential.user?.emailVerified ?? false) {
         // Navigate to home screen or wherever needed
-        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+        Navigator.pushReplacementNamed(context, '/profile');
       } else {
         // If email not verified, send verification email
         await userCredential.user?.sendEmailVerification();
         if (!context.mounted) return;
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Будь ласка, підтвердіть ваш email. Ми відправили листа з підтвердженням.')),
+          const SnackBar(
+              content: Text(
+                  'Будь ласка, підтвердіть ваш email. Ми відправили листа з підтвердженням.')),
         );
       }
     } on FirebaseAuthException catch (e) {
       String message = 'Помилка авторизації';
-      
+
       if (e.code == 'user-not-found') {
         message = 'Користувача з таким email не знайдено';
       } else if (e.code == 'wrong-password') {
